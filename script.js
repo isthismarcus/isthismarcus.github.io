@@ -110,7 +110,7 @@ class MarcusFaceRecognition {
 
     async loadModels() {
         try {
-            this.updateStatus('Loading AI models...', 'loading');
+            this.updateStatus('Loading the model into your browser... (takes up to 30 sec)', 'loading');
             
             this.faceDetection = new FaceDetection({
                 locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
@@ -127,16 +127,27 @@ class MarcusFaceRecognition {
             this.session = await ort.InferenceSession.create('./marcus_face_model.onnx');
             this.isModelLoaded = true;
             
-            this.updateStatus('✅ AI models ready! Upload an image to start.', 'ready');
+            this.updateStatus('✅ AI model ready! Upload an image to start.', 'ready');
         } catch (error) {
             console.error('Failed to load models:', error);
-            this.updateStatus('❌ Failed to load AI models. Please refresh the page.', 'error');
+            this.updateStatus('❌ Failed to load AI model. Please refresh the page.', 'error');
         }
     }
 
     updateStatus(message, type) {
         const statusElement = document.getElementById('status');
-        statusElement.innerHTML = message;
+        
+        if (type === 'loading') {
+            statusElement.innerHTML = `
+                <div class="status-loading">
+                    <div class="spinner-small"></div>
+                    <span>${message}</span>
+                </div>
+            `;
+        } else {
+            statusElement.innerHTML = message;
+        }
+        
         statusElement.className = `status ${type}`;
     }
 

@@ -286,7 +286,6 @@ main {
     margin-bottom: 25px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .status-loading {
@@ -294,6 +293,15 @@ main {
     align-items: center;
     justify-content: center;
     gap: 10px;
+}
+
+.spinner-small {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #8e2de2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 .status.ready {
@@ -308,13 +316,7 @@ main {
     border-color: rgba(254, 202, 202, 0.5);
 }
 
-.spinner.small {
-    width: 16px;
-    height: 16px;
-    border-width: 2px;
-    border-color: #e2e8f0;
-    border-top-color: #8e2de2;
-}
+
 
 footer {
     background: #f1f5f9;
