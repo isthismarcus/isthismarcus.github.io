@@ -1,0 +1,8 @@
+marcus/
+*.py
+*.pt
+*.pth
+
+__pycache__/
+
+marcus_embedding.js

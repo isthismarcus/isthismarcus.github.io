@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is This Marcus?</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Is This Marcus?</h1>
+            <p>Advanced AI face detection and recognition powered by MediaPipe</p>
+        </header>
+
+        <main>
+            <div class="status" id="status">
+                <div class="status-loading">
+                    <div class="spinner small"></div>
+                    <span>Loading AI model...</span>
+                </div>
+            </div>
+
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <p>Drop your image here or click to browse</p>
+                        <p class="file-types">Supports any photo with faces • PNG, JPG, JPEG up to 10MB</p>
+                    </div>
+                    <input type="file" id="imageInput" accept="image/*" hidden>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <div class="image-preview">
+                    <img id="previewImage" alt="Preview">
+                </div>
+            </div>
+
+            <div class="analysis-section">
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p id="loadingText">Detecting faces...</p>
+                </div>
+                
+                <div class="detection-canvas" id="detectionCanvas" style="display: none;">
+                    <canvas id="faceDetectionCanvas"></canvas>
+                    <p class="detection-info" id="detectionInfo"></p>
+                </div>
+
+                <div class="result-card" id="resultCard" style="display: none;">
+                    <div class="result-content">
+                        <div class="result-icon" id="resultIcon"></div>
+                        <h2 id="resultText"></h2>
+                        <p id="resultSubtext"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made by <a href="https://github.com/marcpinet" target="_blank" rel="noopener noreferrer">marcpinet</a> with ❤️</p>
+            <p>Powered by <strong>MediaPipe</strong>, <strong>ONNX.js</strong> and <strong>Inception ResNet (V1)</strong></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
