@@ -390,31 +390,45 @@ class MarcusFaceRecognition {
 
     drawDetectionCanvas(img, detections, results = []) {
         const canvas = document.getElementById('faceDetectionCanvas');
-        const canvasSize = 350;
-        canvas.width = canvasSize;
-        canvas.height = canvasSize;
+        
+        // Calculate optimal canvas size based on image aspect ratio
+        const maxSize = 400;
+        const aspectRatio = img.width / img.height;
+        
+        let canvasWidth, canvasHeight;
+        if (aspectRatio > 1) {
+            // Landscape image
+            canvasWidth = Math.min(maxSize, img.width);
+            canvasHeight = canvasWidth / aspectRatio;
+        } else {
+            // Portrait or square image
+            canvasHeight = Math.min(maxSize, img.height);
+            canvasWidth = canvasHeight * aspectRatio;
+        }
+        
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
         const ctx = canvas.getContext('2d');
 
-        const scale = Math.min(canvasSize / img.width, canvasSize / img.height);
-        const scaledWidth = img.width * scale;
-        const scaledHeight = img.height * scale;
-        const offsetX = (canvasSize - scaledWidth) / 2;
-        const offsetY = (canvasSize - scaledHeight) / 2;
-
+        // Draw image to fill the entire canvas
         ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(0, 0, canvasSize, canvasSize);
-        ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight);
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
-        ctx.lineWidth = 4;
-        ctx.font = 'bold 16px Arial';
+        // Calculate scale for face detection boxes
+        const scaleX = canvasWidth / img.width;
+        const scaleY = canvasHeight / img.height;
+
+        ctx.lineWidth = 3;
+        ctx.font = 'bold 14px Arial';
         ctx.shadowBlur = 3;
 
         detections.forEach((detection, index) => {
             const bbox = detection.boundingBox;
-            const x = (bbox.xCenter * img.width - (bbox.width * img.width) / 2) * scale + offsetX;
-            const y = (bbox.yCenter * img.height - (bbox.height * img.height) / 2) * scale + offsetY;
-            const width = bbox.width * img.width * scale;
-            const height = bbox.height * img.height * scale;
+            const x = (bbox.xCenter * img.width - (bbox.width * img.width) / 2) * scaleX;
+            const y = (bbox.yCenter * img.height - (bbox.height * img.height) / 2) * scaleY;
+            const width = bbox.width * img.width * scaleX;
+            const height = bbox.height * img.height * scaleY;
 
             // Check if this face is Marcus
             const result = results[index];

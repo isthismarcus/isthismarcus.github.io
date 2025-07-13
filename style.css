@@ -177,12 +177,12 @@ main {
     border-radius: 15px;
     border: 1px solid #e2e8f0;
     padding: 25px;
+    margin-bottom: 30px;
 }
 
 #faceDetectionCanvas {
-    width: 350px;
-    height: 350px;
-    object-fit: cover;
+    max-width: 100%;
+    height: auto;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     border: 2px solid #ffffff;
@@ -370,11 +370,6 @@ footer a:hover {
     .image-preview img {
         width: 250px;
         height: 250px;
-    }
-
-    #faceDetectionCanvas {
-        width: 280px;
-        height: 280px;
     }
 
     .result-card {
