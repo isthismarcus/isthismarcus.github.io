@@ -110,20 +110,24 @@ class MarcusFaceRecognition {
 
     async loadModels() {
         try {
-            this.updateStatus('Loading the model into your browser... (takes up to 30 sec)', 'loading');
+            this.updateStatus('Starting model initialization...', 'loading', 0);
             
+            this.updateStatus('Initializing face detection...', 'loading', 20);
             this.faceDetection = new FaceDetection({
                 locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
             });
             
+            this.updateStatus('Configuring detection settings...', 'loading', 40);
             this.faceDetection.setOptions({
                 model: 'short',
                 minDetectionConfidence: 0.5,
             });
             
+            this.updateStatus('Loading face detection model...', 'loading', 60);
             await this.faceDetection.initialize();
             this.isFaceDetectionLoaded = true;
             
+            this.updateStatus('Loading Marcus recognition model...', 'loading', 80);
             this.session = await ort.InferenceSession.create('./marcus_face_model.onnx');
             this.isModelLoaded = true;
             
@@ -134,14 +138,15 @@ class MarcusFaceRecognition {
         }
     }
 
-    updateStatus(message, type) {
+    updateStatus(message, type, progress = null) {
         const statusElement = document.getElementById('status');
         
         if (type === 'loading') {
+            const progressText = progress !== null ? ` (${progress}%)` : '';
             statusElement.innerHTML = `
                 <div class="status-loading">
                     <div class="spinner-small"></div>
-                    <span>${message}</span>
+                    <span>${message}${progressText}</span>
                 </div>
             `;
         } else {
